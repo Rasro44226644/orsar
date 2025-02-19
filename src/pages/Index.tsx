@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { Search, Book, GraduationCap, Heart, Globe, Star, Languages, Users, Target, Zap, Trophy, Brain, MessageCircle, Gamepad, Timer, Music, Video, MicrophoneIcon } from 'lucide-react';
+import { Search, Book, GraduationCap, Heart, Globe, Star, Languages, Users, Target, Zap, Trophy, Brain, MessageCircle, Gamepad, Timer, Music, Video, Mic } from 'lucide-react';
 import { toast } from "sonner";
 
 const HAUSA_LESSONS = [
@@ -217,7 +217,7 @@ const Index = () => {
                       </span>
                       {lesson.hasAudio && (
                         <span className="px-2 py-1 text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 rounded-full">
-                          <MicrophoneIcon className="h-3 w-3 inline" />
+                          <Mic className="h-3 w-3 inline" />
                         </span>
                       )}
                       {lesson.hasVideo && (
