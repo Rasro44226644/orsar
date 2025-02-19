@@ -3,123 +3,150 @@ import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import CodeSnippet from '@/components/CodeSnippet';
-import { useQuery } from '@tanstack/react-query';
-import { Search } from 'lucide-react';
+import { Search, Book, GraduationCap, Heart, Globe, Star, Languages } from 'lucide-react';
 import { toast } from "sonner";
 
-interface Snippet {
-  id: string;
-  title: string;
-  code: string;
-  language: string;
-  createdAt: string;
-}
+const HAUSA_LESSONS = [
+  {
+    id: "1",
+    title: "Greetings - Gaisuwa",
+    content: "Sannu - Hello\nYaya kake/kike? - How are you?",
+    level: "Beginner",
+    category: "Basic Phrases"
+  },
+  {
+    id: "2",
+    title: "Numbers - Lambobi",
+    content: "Daya - One\nBiyu - Two\nUku - Three",
+    level: "Beginner",
+    category: "Numbers"
+  },
+  {
+    id: "3",
+    title: "Colors - Kala",
+    content: "Ja - Red\nBaki - Black\nFari - White",
+    level: "Beginner",
+    category: "Colors"
+  }
+];
 
 const Index = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
 
-  const { data: snippets = [], isLoading, error, refetch } = useQuery({
-    queryKey: ['snippets'],
-    queryFn: async () => {
-      try {
-        const response = await fetch('http://localhost:3000/api/snippets');
-        if (!response.ok) {
-          throw new Error('Failed to fetch snippets');
-        }
-        return response.json();
-      } catch (error) {
-        console.error('Error fetching snippets:', error);
-        return []; // Return empty array as fallback
-      }
-    },
-  });
-
-  const filteredSnippets = snippets.filter((snippet: Snippet) =>
-    snippet.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredLessons = HAUSA_LESSONS.filter(lesson =>
+    lesson.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+    (selectedCategory === 'all' || lesson.category === selectedCategory)
   );
 
-  const handleDelete = async (id: string) => {
-    // In a real app, this would make an API call
-    // For now, we'll just show a success message
-    toast.success('Snippet deleted successfully');
-    refetch(); // Refresh the list
-  };
-
-  if (error) {
-    return (
-      <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center">
-        <Card className="p-6 max-w-md mx-auto">
-          <h2 className="text-xl font-semibold text-red-600 mb-2">Error Loading Snippets</h2>
-          <p className="text-zinc-600 dark:text-zinc-400">
-            Don't worry! This is just a frontend demo. In a real application, this would connect to your backend.
-          </p>
-          <Button onClick={() => refetch()} className="mt-4">
-            Try Again
-          </Button>
-        </Card>
-      </div>
-    );
-  }
+  const categories = ['all', ...new Set(HAUSA_LESSONS.map(lesson => lesson.category))];
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 dark:from-zinc-900 dark:to-purple-900">
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="space-y-8">
-          <div className="text-center space-y-2">
-            <span className="px-3 py-1 text-sm font-medium bg-zinc-100 dark:bg-zinc-800 rounded-full">
-              Code Practice Haven
-            </span>
-            <h1 className="text-4xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-5xl">
-              Your Personal Code Library
+          <div className="text-center space-y-4">
+            <div className="flex justify-center gap-2 mb-4">
+              <Globe className="h-8 w-8 text-purple-500 animate-pulse" />
+              <Languages className="h-8 w-8 text-pink-500 animate-bounce" />
+            </div>
+            <h1 className="text-5xl font-bold tracking-tight bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent sm:text-6xl">
+              Learn Hausa Language
             </h1>
-            <p className="text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto">
-              Store, organize, and learn from your code snippets. Perfect for practice and reference.
+            <p className="text-lg text-zinc-600 dark:text-zinc-300 max-w-2xl mx-auto">
+              Explore the beautiful Hausa language through interactive lessons and exercises.
             </p>
+          </div>
+
+          <div className="flex flex-wrap gap-4 justify-center">
+            {categories.map((category) => (
+              <Button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                variant={selectedCategory === category ? "default" : "outline"}
+                className={`capitalize ${
+                  selectedCategory === category 
+                    ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white" 
+                    : "hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:text-white"
+                }`}
+              >
+                {category}
+              </Button>
+            ))}
           </div>
 
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-400 h-5 w-5" />
             <Input
               type="search"
-              placeholder="Search snippets..."
-              className="pl-10 w-full bg-white dark:bg-zinc-800"
+              placeholder="Search lessons..."
+              className="pl-10 w-full bg-white/80 backdrop-blur-sm border-purple-100 dark:border-purple-900 dark:bg-zinc-800/80"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {isLoading ? (
-              Array.from({ length: 6 }).map((_, i) => (
-                <Card key={i} className="p-6 space-y-4 animate-pulse">
-                  <div className="h-4 bg-zinc-200 dark:bg-zinc-700 rounded w-3/4"></div>
-                  <div className="h-20 bg-zinc-200 dark:bg-zinc-700 rounded"></div>
-                </Card>
-              ))
-            ) : filteredSnippets.length > 0 ? (
-              filteredSnippets.map((snippet: Snippet) => (
-                <CodeSnippet 
-                  key={snippet.id} 
-                  snippet={snippet}
-                  onDelete={handleDelete}
-                />
-              ))
-            ) : (
-              <div className="col-span-full text-center py-12">
-                <p className="text-zinc-600 dark:text-zinc-400">
-                  {searchTerm ? "No snippets found matching your search" : "No snippets yet"}
-                </p>
-              </div>
-            )}
+            {filteredLessons.map((lesson) => (
+              <Card 
+                key={lesson.id}
+                className="p-6 space-y-4 bg-white/80 backdrop-blur-sm dark:bg-zinc-800/80 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+              >
+                <div className="flex justify-between items-start">
+                  <div>
+                    <span className="px-3 py-1 text-xs font-medium bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full">
+                      {lesson.level}
+                    </span>
+                    <h3 className="mt-2 text-xl font-semibold text-zinc-900 dark:text-zinc-50">
+                      {lesson.title}
+                    </h3>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => toast.success("Lesson saved to favorites!")}
+                    className="text-pink-500 hover:text-pink-600 hover:bg-pink-50 dark:hover:bg-pink-900/20"
+                  >
+                    <Heart className="h-5 w-5" />
+                  </Button>
+                </div>
+                
+                <pre className="p-4 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-zinc-900 dark:to-purple-900/50 rounded-lg overflow-x-auto">
+                  <code className="text-sm whitespace-pre-wrap">{lesson.content}</code>
+                </pre>
+                
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-zinc-500 dark:text-zinc-400 flex items-center gap-2">
+                    <Book className="h-4 w-4" />
+                    {lesson.category}
+                  </span>
+                  <Button
+                    onClick={() => toast.success("Starting practice session!")}
+                    className="bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600"
+                    size="sm"
+                  >
+                    Practice Now
+                  </Button>
+                </div>
+              </Card>
+            ))}
           </div>
 
-          <div className="flex justify-center">
+          <div className="flex justify-center gap-4">
             <Button
-              className="bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 hover:bg-zinc-800 dark:hover:bg-zinc-100"
-              onClick={() => toast.success("This is a frontend-only demo. In a real app, this would open a form to add a new snippet.")}
+              className="bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600"
+              onClick={() => toast.success("Starting a new lesson!")}
             >
-              Add New Snippet
+              <GraduationCap className="mr-2 h-5 w-5" />
+              Start Learning
+            </Button>
+            <Button
+              variant="outline"
+              className="border-purple-200 dark:border-purple-800 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:text-white"
+              onClick={() => toast.success("Check out your progress!")}
+            >
+              <Star className="mr-2 h-5 w-5" />
+              View Progress
             </Button>
           </div>
         </div>
