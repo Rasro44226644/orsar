@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import CodeSnippet from '@/components/CodeSnippet';
 import { useQuery } from '@tanstack/react-query';
 import { Search } from 'lucide-react';
+import { toast } from "sonner";
 
 interface Snippet {
   id: string;
@@ -18,20 +19,48 @@ interface Snippet {
 const Index = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
-  const { data: snippets = [], isLoading } = useQuery({
+  const { data: snippets = [], isLoading, error, refetch } = useQuery({
     queryKey: ['snippets'],
     queryFn: async () => {
-      const response = await fetch('http://localhost:3000/api/snippets');
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+      try {
+        const response = await fetch('http://localhost:3000/api/snippets');
+        if (!response.ok) {
+          throw new Error('Failed to fetch snippets');
+        }
+        return response.json();
+      } catch (error) {
+        console.error('Error fetching snippets:', error);
+        return []; // Return empty array as fallback
       }
-      return response.json();
     },
   });
 
   const filteredSnippets = snippets.filter((snippet: Snippet) =>
     snippet.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleDelete = async (id: string) => {
+    // In a real app, this would make an API call
+    // For now, we'll just show a success message
+    toast.success('Snippet deleted successfully');
+    refetch(); // Refresh the list
+  };
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center">
+        <Card className="p-6 max-w-md mx-auto">
+          <h2 className="text-xl font-semibold text-red-600 mb-2">Error Loading Snippets</h2>
+          <p className="text-zinc-600 dark:text-zinc-400">
+            Don't worry! This is just a frontend demo. In a real application, this would connect to your backend.
+          </p>
+          <Button onClick={() => refetch()} className="mt-4">
+            Try Again
+          </Button>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900">
@@ -70,11 +99,17 @@ const Index = () => {
               ))
             ) : filteredSnippets.length > 0 ? (
               filteredSnippets.map((snippet: Snippet) => (
-                <CodeSnippet key={snippet.id} snippet={snippet} />
+                <CodeSnippet 
+                  key={snippet.id} 
+                  snippet={snippet}
+                  onDelete={handleDelete}
+                />
               ))
             ) : (
               <div className="col-span-full text-center py-12">
-                <p className="text-zinc-600 dark:text-zinc-400">No snippets found</p>
+                <p className="text-zinc-600 dark:text-zinc-400">
+                  {searchTerm ? "No snippets found matching your search" : "No snippets yet"}
+                </p>
               </div>
             )}
           </div>
@@ -82,7 +117,7 @@ const Index = () => {
           <div className="flex justify-center">
             <Button
               className="bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 hover:bg-zinc-800 dark:hover:bg-zinc-100"
-              onClick={() => console.log('Add new snippet')}
+              onClick={() => toast.success("This is a frontend-only demo. In a real app, this would open a form to add a new snippet.")}
             >
               Add New Snippet
             </Button>

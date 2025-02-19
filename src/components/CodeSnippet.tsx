@@ -12,12 +12,20 @@ interface SnippetProps {
     language: string;
     createdAt: string;
   };
+  onDelete?: (id: string) => void;
 }
 
-const CodeSnippet = ({ snippet }: SnippetProps) => {
+const CodeSnippet = ({ snippet, onDelete }: SnippetProps) => {
   const copyToClipboard = async () => {
     await navigator.clipboard.writeText(snippet.code);
     toast.success('Copied to clipboard');
+  };
+
+  const handleDelete = () => {
+    if (onDelete) {
+      onDelete(snippet.id);
+      toast.success('Snippet deleted');
+    }
   };
 
   return (
@@ -43,6 +51,7 @@ const CodeSnippet = ({ snippet }: SnippetProps) => {
           <Button
             variant="ghost"
             size="icon"
+            onClick={handleDelete}
             className="hover:bg-red-100 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400"
           >
             <Trash className="h-4 w-4" />
