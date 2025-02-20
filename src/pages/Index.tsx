@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -81,7 +80,6 @@ const Index = () => {
       return;
     }
     toast.success(`Starting lesson: ${lesson.title}`);
-    // In a real app, this would navigate to the lesson
   };
 
   const earnXP = (xp: number) => {
