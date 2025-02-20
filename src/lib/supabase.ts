@@ -1,7 +1,8 @@
 
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-export const supabase = createClient(supabaseUrl, supabaseKey);
+// Since we're moving to SQLite3 later, we'll use temporary values here
+export const supabase = createClient(
+  'https://your-project.supabase.co',
+  'your-anon-key'
+);

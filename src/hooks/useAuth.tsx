@@ -12,7 +12,6 @@ export const useAuth = () => {
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
-        // Convert Supabase user to our User type
         const userData: User = {
           id: session.user.id,
           email: session.user.email!,
