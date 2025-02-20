@@ -11,7 +11,22 @@ export const useAuth = () => {
   useEffect(() => {
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user as User || null);
+      if (session?.user) {
+        // Convert Supabase user to our User type
+        const userData: User = {
+          id: session.user.id,
+          email: session.user.email!,
+          username: session.user.user_metadata.username || '',
+          xp: session.user.user_metadata.xp || 0,
+          level: session.user.user_metadata.level || 1,
+          streak_days: session.user.user_metadata.streak_days || 0,
+          last_login: session.user.last_sign_in_at || new Date().toISOString(),
+          created_at: session.user.created_at,
+        };
+        setUser(userData);
+      } else {
+        setUser(null);
+      }
       setLoading(false);
     });
 
@@ -19,7 +34,21 @@ export const useAuth = () => {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user as User || null);
+      if (session?.user) {
+        const userData: User = {
+          id: session.user.id,
+          email: session.user.email!,
+          username: session.user.user_metadata.username || '',
+          xp: session.user.user_metadata.xp || 0,
+          level: session.user.user_metadata.level || 1,
+          streak_days: session.user.user_metadata.streak_days || 0,
+          last_login: session.user.last_sign_in_at || new Date().toISOString(),
+          created_at: session.user.created_at,
+        };
+        setUser(userData);
+      } else {
+        setUser(null);
+      }
       setLoading(false);
     });
 
