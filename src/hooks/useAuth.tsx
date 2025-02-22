@@ -9,59 +9,50 @@ export const useAuth = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) {
-        const userData: User = {
-          id: session.user.id,
-          email: session.user.email!,
-          username: session.user.user_metadata.username || '',
-          xp: session.user.user_metadata.xp || 0,
-          level: session.user.user_metadata.level || 1,
-          streak_days: session.user.user_metadata.streak_days || 0,
-          last_login: session.user.last_sign_in_at || new Date().toISOString(),
-          created_at: session.user.created_at,
-        };
-        setUser(userData);
-      } else {
-        setUser(null);
-      }
-      setLoading(false);
-    });
+    // For development, let's create a mock session
+    const mockUser: User = {
+      id: '1',
+      email: 'test@example.com',
+      username: 'TestUser',
+      xp: 0,
+      level: 1,
+      streak_days: 0,
+      last_login: new Date().toISOString(),
+      created_at: new Date().toISOString(),
+    };
 
-    // Listen for auth changes
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session?.user) {
-        const userData: User = {
-          id: session.user.id,
-          email: session.user.email!,
-          username: session.user.user_metadata.username || '',
-          xp: session.user.user_metadata.xp || 0,
-          level: session.user.user_metadata.level || 1,
-          streak_days: session.user.user_metadata.streak_days || 0,
-          last_login: session.user.last_sign_in_at || new Date().toISOString(),
-          created_at: session.user.created_at,
-        };
-        setUser(userData);
-      } else {
-        setUser(null);
-      }
-      setLoading(false);
-    });
+    // Simulate auth state from localStorage
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
+    setLoading(false);
 
-    return () => subscription.unsubscribe();
+    return () => {
+      // Cleanup
+    };
   }, []);
 
   const signIn = async (email: string, password: string) => {
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      if (error) throw error;
-      toast.success('Welcome back!');
+      // For development, just check if email and password are not empty
+      if (email && password) {
+        const mockUser: User = {
+          id: '1',
+          email,
+          username: email.split('@')[0],
+          xp: 0,
+          level: 1,
+          streak_days: 0,
+          last_login: new Date().toISOString(),
+          created_at: new Date().toISOString(),
+        };
+        setUser(mockUser);
+        localStorage.setItem('user', JSON.stringify(mockUser));
+        toast.success('Welcome back!');
+      } else {
+        throw new Error('Invalid credentials');
+      }
     } catch (error: any) {
       toast.error(error.message);
     }
@@ -69,20 +60,20 @@ export const useAuth = () => {
 
   const signUp = async (email: string, password: string, username: string) => {
     try {
-      const { error } = await supabase.auth.signUp({
+      // For development, just create a new user
+      const mockUser: User = {
+        id: '1',
         email,
-        password,
-        options: {
-          data: {
-            username,
-            xp: 0,
-            level: 1,
-            streak_days: 0,
-          },
-        },
-      });
-      if (error) throw error;
-      toast.success('Welcome! Please check your email to verify your account.');
+        username,
+        xp: 0,
+        level: 1,
+        streak_days: 0,
+        last_login: new Date().toISOString(),
+        created_at: new Date().toISOString(),
+      };
+      setUser(mockUser);
+      localStorage.setItem('user', JSON.stringify(mockUser));
+      toast.success('Account created successfully!');
     } catch (error: any) {
       toast.error(error.message);
     }
@@ -90,8 +81,8 @@ export const useAuth = () => {
 
   const signOut = async () => {
     try {
-      const { error } = await supabase.auth.signOut();
-      if (error) throw error;
+      localStorage.removeItem('user');
+      setUser(null);
       toast.success('Signed out successfully');
     } catch (error: any) {
       toast.error(error.message);
