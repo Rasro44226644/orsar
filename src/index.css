@@ -4,48 +4,26 @@
 
 @layer base {
   :root {
-    --background: 225 25% 95%;
-    --foreground: 225 25% 10%;
-    --card: 225 25% 98%;
-    --card-foreground: 225 25% 10%;
-    --popover: 225 25% 98%;
-    --popover-foreground: 225 25% 10%;
-    --primary: 225 75% 40%;
-    --primary-foreground: 225 25% 98%;
-    --secondary: 225 25% 90%;
-    --secondary-foreground: 225 25% 10%;
-    --muted: 225 25% 90%;
-    --muted-foreground: 225 25% 40%;
-    --accent: 225 25% 90%;
-    --accent-foreground: 225 25% 10%;
-    --destructive: 0 75% 40%;
-    --destructive-foreground: 225 25% 98%;
-    --border: 225 25% 85%;
-    --input: 225 25% 85%;
-    --ring: 225 75% 40%;
-    --radius: 0.75rem;
-  }
- 
-  .dark {
-    --background: 225 25% 10%;
-    --foreground: 225 25% 98%;
-    --card: 225 25% 15%;
-    --card-foreground: 225 25% 98%;
-    --popover: 225 25% 15%;
-    --popover-foreground: 225 25% 98%;
-    --primary: 225 75% 60%;
-    --primary-foreground: 225 25% 10%;
-    --secondary: 225 25% 20%;
-    --secondary-foreground: 225 25% 98%;
-    --muted: 225 25% 20%;
-    --muted-foreground: 225 25% 60%;
-    --accent: 225 25% 20%;
-    --accent-foreground: 225 25% 98%;
-    --destructive: 0 75% 50%;
-    --destructive-foreground: 225 25% 98%;
-    --border: 225 25% 20%;
-    --input: 225 25% 20%;
-    --ring: 225 75% 60%;
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 240 5% 64.9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --radius: 0.5rem;
   }
 }
 
@@ -54,8 +32,11 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    @apply bg-background text-foreground bg-[url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=2560&q=80')] bg-cover bg-fixed bg-center before:absolute before:inset-0 before:z-0 before:bg-black/60 before:backdrop-blur-sm;
+  }
+  
+  #root {
+    @apply relative z-10;
   }
 }
 
@@ -112,4 +93,20 @@
   50% {
     transform: translateY(-5px);
   }
+}
+
+.glass-card {
+  @apply bg-black/40 backdrop-blur-md border border-white/10 shadow-lg;
+}
+
+.glass-input {
+  @apply bg-black/20 backdrop-blur-sm border-white/10 focus:border-white/20 focus:ring-white/20;
+}
+
+.neo-blur {
+  @apply backdrop-blur-xl bg-black/40 border border-white/10;
+}
+
+.text-gradient {
+  @apply bg-gradient-to-br from-white via-white/90 to-white/70 bg-clip-text text-transparent;
 }

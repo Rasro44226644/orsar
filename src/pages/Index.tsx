@@ -96,29 +96,29 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 dark:from-zinc-900 dark:to-purple-900">
+    <div className="relative min-h-screen">
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="space-y-8">
           {/* Header Section */}
           <div className="text-center space-y-4">
             <div className="flex justify-center gap-2 mb-4">
-              <Globe className="h-8 w-8 text-purple-500 animate-pulse" />
-              <Languages className="h-8 w-8 text-pink-500 animate-bounce" />
+              <Globe className="h-8 w-8 text-white/80 animate-pulse" />
+              <Languages className="h-8 w-8 text-white/80 animate-bounce" />
             </div>
-            <h1 className="text-5xl font-bold tracking-tight bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent sm:text-6xl">
+            <h1 className="text-5xl font-bold text-gradient sm:text-6xl">
               Learn Hausa Language
             </h1>
-            <p className="text-lg text-zinc-600 dark:text-zinc-300 max-w-2xl mx-auto">
+            <p className="text-lg text-white/80 max-w-2xl mx-auto">
               Master Hausa through immersive learning and cultural insights
             </p>
           </div>
 
           {/* User Progress Section */}
-          <Card className="p-6 bg-white/80 backdrop-blur-sm dark:bg-zinc-800/80">
+          <Card className="glass-card p-6">
             <div className="flex flex-wrap justify-between items-center gap-4">
               <div className="flex items-center gap-4">
                 <div className="flex flex-col items-center">
-                  <Target className="h-6 w-6 text-purple-500" />
+                  <Target className="h-6 w-6 text-white/80" />
                   <span className="text-sm font-medium">Level {userLevel}</span>
                 </div>
                 <div className="flex flex-col items-center">
@@ -132,7 +132,7 @@ const Index = () => {
               </div>
               <Button
                 variant="outline"
-                className="border-purple-200 dark:border-purple-800 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:text-white"
+                className="border-white/10 hover:bg-white/10"
                 onClick={() => toast.success("View your detailed progress")}
               >
                 <Star className="mr-2 h-4 w-4" />
@@ -146,16 +146,16 @@ const Index = () => {
             {LEARNING_PATHS.map(path => (
               <Card 
                 key={path.id}
-                className="p-6 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/50 dark:to-pink-900/50 hover:shadow-xl transition-all duration-300"
+                className="glass-card p-6 hover:bg-white/5 transition-all duration-300"
               >
-                <h3 className="text-xl font-semibold text-purple-900 dark:text-purple-100 mb-2">
+                <h3 className="text-xl font-semibold text-white mb-2">
                   {path.title}
                 </h3>
-                <p className="text-sm text-zinc-600 dark:text-zinc-300 mb-4">
+                <p className="text-sm text-white/70 mb-4">
                   {path.description}
                 </p>
                 <Button
-                  className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white"
+                  className="w-full bg-white/10 hover:bg-white/20 text-white"
                   onClick={() => toast.success(`Starting ${path.title}`)}
                   disabled={userXP < path.requiredXP}
                 >
@@ -168,11 +168,11 @@ const Index = () => {
           {/* Search and Filters */}
           <div className="space-y-4">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-400 h-5 w-5" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/50 h-5 w-5" />
               <Input
                 type="search"
                 placeholder="Search lessons..."
-                className="pl-10 w-full bg-white/80 backdrop-blur-sm border-purple-100 dark:border-purple-900 dark:bg-zinc-800/80"
+                className="glass-input pl-10 w-full text-white placeholder:text-white/50"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -186,8 +186,8 @@ const Index = () => {
                   variant={selectedCategory === category ? "default" : "outline"}
                   className={`capitalize ${
                     selectedCategory === category 
-                      ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white" 
-                      : "hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:text-white"
+                      ? "bg-white/20 text-white" 
+                      : "border-white/10 text-white/80 hover:bg-white/10"
                   }`}
                 >
                   {category}
@@ -201,11 +201,11 @@ const Index = () => {
             {filteredLessons.map((lesson) => (
               <Card 
                 key={lesson.id}
-                className={`p-6 space-y-4 ${
+                className={`glass-card p-6 space-y-4 ${
                   userLevel >= lesson.requiredLevel
-                    ? "bg-white/80 backdrop-blur-sm dark:bg-zinc-800/80"
-                    : "bg-zinc-100/80 dark:bg-zinc-800/40"
-                } hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1`}
+                    ? "hover:bg-white/5"
+                    : "opacity-50"
+                } transition-all duration-300`}
               >
                 <div className="flex justify-between items-start">
                   <div>
@@ -284,35 +284,35 @@ const Index = () => {
 
           {/* Additional Features */}
           <div className="grid gap-6 md:grid-cols-3">
-            <Card className="p-6 bg-white/80 backdrop-blur-sm dark:bg-zinc-800/80 hover:shadow-lg transition-all">
-              <Users className="h-8 w-8 text-purple-500 mb-4" />
+            <Card className="glass-card p-6 hover:bg-white/5 transition-all">
+              <Users className="h-8 w-8 text-white/80 mb-4" />
               <h3 className="text-lg font-semibold mb-2">Language Exchange</h3>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-4">
+              <p className="text-sm text-white/70 mb-4">
                 Practice with native Hausa speakers
               </p>
-              <Button variant="outline" onClick={() => toast.success("Find language partners")}>
+              <Button variant="outline" className="border-white/10 hover:bg-white/10" onClick={() => toast.success("Find language partners")}>
                 Find Partners
               </Button>
             </Card>
 
-            <Card className="p-6 bg-white/80 backdrop-blur-sm dark:bg-zinc-800/80 hover:shadow-lg transition-all">
-              <Brain className="h-8 w-8 text-pink-500 mb-4" />
+            <Card className="glass-card p-6 hover:bg-white/5 transition-all">
+              <Brain className="h-8 w-8 text-white/80 mb-4" />
               <h3 className="text-lg font-semibold mb-2">AI-Powered Practice</h3>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-4">
+              <p className="text-sm text-white/70 mb-4">
                 Get instant feedback on pronunciation
               </p>
-              <Button variant="outline" onClick={() => toast.success("Start AI practice session")}>
+              <Button variant="outline" className="border-white/10 hover:bg-white/10" onClick={() => toast.success("Start AI practice session")}>
                 Practice Now
               </Button>
             </Card>
 
-            <Card className="p-6 bg-white/80 backdrop-blur-sm dark:bg-zinc-800/80 hover:shadow-lg transition-all">
-              <MessageCircle className="h-8 w-8 text-purple-500 mb-4" />
+            <Card className="glass-card p-6 hover:bg-white/5 transition-all">
+              <MessageCircle className="h-8 w-8 text-white/80 mb-4" />
               <h3 className="text-lg font-semibold mb-2">Community Stories</h3>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-4">
+              <p className="text-sm text-white/70 mb-4">
                 Learn through shared experiences
               </p>
-              <Button variant="outline" onClick={() => toast.success("Explore community stories")}>
+              <Button variant="outline" className="border-white/10 hover:bg-white/10" onClick={() => toast.success("Explore community stories")}>
                 Explore Stories
               </Button>
             </Card>
@@ -321,7 +321,7 @@ const Index = () => {
           {/* Call to Action */}
           <div className="flex justify-center gap-4">
             <Button
-              className="bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600"
+              className="bg-white/10 hover:bg-white/20 text-white"
               onClick={() => toast.success("Starting your learning journey!")}
             >
               <GraduationCap className="mr-2 h-5 w-5" />
@@ -329,7 +329,7 @@ const Index = () => {
             </Button>
             <Button
               variant="outline"
-              className="border-purple-200 dark:border-purple-800 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:text-white"
+              className="border-white/10 hover:bg-white/10 text-white"
               onClick={() => toast.success("Download offline content!")}
             >
               <Book className="mr-2 h-5 w-5" />
