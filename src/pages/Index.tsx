@@ -102,13 +102,13 @@ const Index = () => {
           {/* Header Section */}
           <div className="text-center space-y-4">
             <div className="flex justify-center gap-2 mb-4">
-              <Globe className="h-8 w-8 text-white/80 animate-pulse" />
-              <Languages className="h-8 w-8 text-white/80 animate-bounce" />
+              <Globe className="h-8 w-8 icon-muted" />
+              <Languages className="h-8 w-8 icon-muted" />
             </div>
             <h1 className="text-5xl font-bold text-gradient sm:text-6xl">
               Learn Hausa Language
             </h1>
-            <p className="text-lg text-white/80 max-w-2xl mx-auto">
+            <p className="text-lg text-muted max-w-2xl mx-auto">
               Master Hausa through immersive learning and cultural insights
             </p>
           </div>
@@ -118,21 +118,21 @@ const Index = () => {
             <div className="flex flex-wrap justify-between items-center gap-4">
               <div className="flex items-center gap-4">
                 <div className="flex flex-col items-center">
-                  <Target className="h-6 w-6 text-white/80" />
-                  <span className="text-sm font-medium">Level {userLevel}</span>
+                  <Target className="h-6 w-6 icon-muted" />
+                  <span className="stat-value">Level {userLevel}</span>
                 </div>
                 <div className="flex flex-col items-center">
-                  <Zap className="h-6 w-6 text-yellow-500" />
-                  <span className="text-sm font-medium">{userXP} XP</span>
+                  <Zap className="h-6 w-6 text-zinc-500" />
+                  <span className="stat-value">{userXP} XP</span>
                 </div>
                 <div className="flex flex-col items-center">
-                  <Trophy className="h-6 w-6 text-orange-500" />
-                  <span className="text-sm font-medium">{currentStreak} Day Streak</span>
+                  <Trophy className="h-6 w-6 text-zinc-500" />
+                  <span className="stat-value">{currentStreak} Day Streak</span>
                 </div>
               </div>
               <Button
                 variant="outline"
-                className="border-white/10 hover:bg-white/10"
+                className="button-muted"
                 onClick={() => toast.success("View your detailed progress")}
               >
                 <Star className="mr-2 h-4 w-4" />
@@ -146,16 +146,16 @@ const Index = () => {
             {LEARNING_PATHS.map(path => (
               <Card 
                 key={path.id}
-                className="glass-card p-6 hover:bg-white/5 transition-all duration-300"
+                className="lesson-card p-6"
               >
-                <h3 className="text-xl font-semibold text-white mb-2">
+                <h3 className="heading-large mb-2">
                   {path.title}
                 </h3>
-                <p className="text-sm text-white/70 mb-4">
+                <p className="text-muted mb-4">
                   {path.description}
                 </p>
                 <Button
-                  className="w-full bg-white/10 hover:bg-white/20 text-white"
+                  className="w-full button-muted"
                   onClick={() => toast.success(`Starting ${path.title}`)}
                   disabled={userXP < path.requiredXP}
                 >
@@ -168,11 +168,11 @@ const Index = () => {
           {/* Search and Filters */}
           <div className="space-y-4">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/50 h-5 w-5" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-500 h-5 w-5" />
               <Input
                 type="search"
                 placeholder="Search lessons..."
-                className="glass-input pl-10 w-full text-white placeholder:text-white/50"
+                className="glass-input pl-10 w-full text-zinc-300 placeholder:text-zinc-600"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -186,8 +186,8 @@ const Index = () => {
                   variant={selectedCategory === category ? "default" : "outline"}
                   className={`capitalize ${
                     selectedCategory === category 
-                      ? "bg-white/20 text-white" 
-                      : "border-white/10 text-white/80 hover:bg-white/10"
+                      ? "bg-zinc-800/80 text-zinc-300" 
+                      : "border-zinc-800 text-zinc-400 hover:bg-zinc-800/50"
                   }`}
                 >
                   {category}
@@ -201,11 +201,11 @@ const Index = () => {
             {filteredLessons.map((lesson) => (
               <Card 
                 key={lesson.id}
-                className={`glass-card p-6 space-y-4 ${
+                className={`lesson-card p-6 space-y-4 ${
                   userLevel >= lesson.requiredLevel
-                    ? "hover:bg-white/5"
+                    ? ""
                     : "opacity-50"
-                } transition-all duration-300`}
+                }`}
               >
                 <div className="flex justify-between items-start">
                   <div>
@@ -284,35 +284,35 @@ const Index = () => {
 
           {/* Additional Features */}
           <div className="grid gap-6 md:grid-cols-3">
-            <Card className="glass-card p-6 hover:bg-white/5 transition-all">
-              <Users className="h-8 w-8 text-white/80 mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Language Exchange</h3>
-              <p className="text-sm text-white/70 mb-4">
+            <Card className="lesson-card p-6">
+              <Users className="h-8 w-8 icon-muted mb-4" />
+              <h3 className="heading-large mb-2">Language Exchange</h3>
+              <p className="text-muted mb-4">
                 Practice with native Hausa speakers
               </p>
-              <Button variant="outline" className="border-white/10 hover:bg-white/10" onClick={() => toast.success("Find language partners")}>
+              <Button variant="outline" className="button-muted" onClick={() => toast.success("Find language partners")}>
                 Find Partners
               </Button>
             </Card>
 
-            <Card className="glass-card p-6 hover:bg-white/5 transition-all">
-              <Brain className="h-8 w-8 text-white/80 mb-4" />
-              <h3 className="text-lg font-semibold mb-2">AI-Powered Practice</h3>
-              <p className="text-sm text-white/70 mb-4">
+            <Card className="lesson-card p-6">
+              <Brain className="h-8 w-8 icon-muted mb-4" />
+              <h3 className="heading-large mb-2">AI-Powered Practice</h3>
+              <p className="text-muted mb-4">
                 Get instant feedback on pronunciation
               </p>
-              <Button variant="outline" className="border-white/10 hover:bg-white/10" onClick={() => toast.success("Start AI practice session")}>
+              <Button variant="outline" className="button-muted" onClick={() => toast.success("Start AI practice session")}>
                 Practice Now
               </Button>
             </Card>
 
-            <Card className="glass-card p-6 hover:bg-white/5 transition-all">
-              <MessageCircle className="h-8 w-8 text-white/80 mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Community Stories</h3>
-              <p className="text-sm text-white/70 mb-4">
+            <Card className="lesson-card p-6">
+              <MessageCircle className="h-8 w-8 icon-muted mb-4" />
+              <h3 className="heading-large mb-2">Community Stories</h3>
+              <p className="text-muted mb-4">
                 Learn through shared experiences
               </p>
-              <Button variant="outline" className="border-white/10 hover:bg-white/10" onClick={() => toast.success("Explore community stories")}>
+              <Button variant="outline" className="button-muted" onClick={() => toast.success("Explore community stories")}>
                 Explore Stories
               </Button>
             </Card>
@@ -321,7 +321,7 @@ const Index = () => {
           {/* Call to Action */}
           <div className="flex justify-center gap-4">
             <Button
-              className="bg-white/10 hover:bg-white/20 text-white"
+              className="button-muted"
               onClick={() => toast.success("Starting your learning journey!")}
             >
               <GraduationCap className="mr-2 h-5 w-5" />
@@ -329,7 +329,7 @@ const Index = () => {
             </Button>
             <Button
               variant="outline"
-              className="border-white/10 hover:bg-white/10 text-white"
+              className="button-muted"
               onClick={() => toast.success("Download offline content!")}
             >
               <Book className="mr-2 h-5 w-5" />

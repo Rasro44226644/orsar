@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,21 +6,21 @@
 @layer base {
   :root {
     --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+    --foreground: 240 10% 85%;
     --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+    --card-foreground: 240 10% 85%;
     --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 240 5% 64.9%;
-    --primary-foreground: 0 0% 98%;
+    --popover-foreground: 240 10% 85%;
+    --primary: 240 10% 50%;
+    --primary-foreground: 240 10% 85%;
     --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary-foreground: 240 10% 85%;
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
     --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --accent-foreground: 240 10% 85%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive-foreground: 240 10% 85%;
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
@@ -32,7 +33,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground bg-[url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=2560&q=80')] bg-cover bg-fixed bg-center before:absolute before:inset-0 before:z-0 before:bg-black/60 before:backdrop-blur-sm;
+    @apply bg-background text-foreground bg-[url('https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?auto=format&fit=crop&w=2560&q=80')] bg-cover bg-fixed bg-center before:absolute before:inset-0 before:z-0 before:bg-black/70 before:backdrop-blur-sm;
   }
   
   #root {
@@ -40,46 +41,36 @@
   }
 }
 
-.animate-pulse {
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+.glass-card {
+  @apply bg-black/40 backdrop-blur-md border border-zinc-800/50 shadow-lg;
 }
 
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: .5;
-  }
+.glass-input {
+  @apply bg-black/20 backdrop-blur-sm border-zinc-800/50 focus:border-zinc-700/50 focus:ring-zinc-700/50;
 }
 
-/* Smooth transitions */
-.transition-all {
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+.neo-blur {
+  @apply backdrop-blur-xl bg-black/40 border border-zinc-800/50;
 }
 
-/* Card hover effects */
-.hover\:shadow-lg:hover {
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-              0 4px 6px -2px rgba(0, 0, 0, 0.05);
+.text-gradient {
+  @apply bg-gradient-to-br from-zinc-300 via-zinc-400 to-zinc-500 bg-clip-text text-transparent;
 }
 
 .achievement-badge {
-  @apply relative inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-primary/40 text-primary-foreground;
+  @apply relative inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-zinc-700/20 to-zinc-600/40 text-zinc-400;
 }
 
 .achievement-badge.unlocked {
-  @apply from-primary to-primary/80;
+  @apply from-zinc-600 to-zinc-700/80;
 }
 
 .progress-bar {
-  @apply h-2 rounded-full bg-secondary overflow-hidden;
+  @apply h-2 rounded-full bg-zinc-800/60 overflow-hidden;
 }
 
 .progress-bar-fill {
-  @apply h-full bg-primary transition-all duration-500;
+  @apply h-full bg-zinc-600 transition-all duration-500;
 }
 
 .animate-bounce-subtle {
@@ -95,18 +86,30 @@
   }
 }
 
-.glass-card {
-  @apply bg-black/40 backdrop-blur-md border border-white/10 shadow-lg;
+.lesson-card {
+  @apply glass-card hover:bg-zinc-900/30 transition-all duration-300;
 }
 
-.glass-input {
-  @apply bg-black/20 backdrop-blur-sm border-white/10 focus:border-white/20 focus:ring-white/20;
+.stat-value {
+  @apply text-zinc-400 font-medium;
 }
 
-.neo-blur {
-  @apply backdrop-blur-xl bg-black/40 border border-white/10;
+.stat-label {
+  @apply text-zinc-500 text-sm;
 }
 
-.text-gradient {
-  @apply bg-gradient-to-br from-white via-white/90 to-white/70 bg-clip-text text-transparent;
+.icon-muted {
+  @apply text-zinc-500;
+}
+
+.button-muted {
+  @apply bg-zinc-800/50 hover:bg-zinc-700/50 text-zinc-300 border-zinc-700/50;
+}
+
+.heading-large {
+  @apply text-zinc-300 font-semibold;
+}
+
+.text-muted {
+  @apply text-zinc-500;
 }
